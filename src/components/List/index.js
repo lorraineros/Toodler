@@ -1,24 +1,33 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Text, TouchableHighlight, View } from 'react-native'
+import { Task } from '../Task'
+import { Text, View } from 'react-native'
+import styles from './styles'
 
 export const List = ({
   id,
   name,
   color,
   boardId,
-  tasks,
-  navigate
+  tasks
 }) => {
-  const listList = tasks ? tasks.filter(t => t.listId === id) : []
+  const taskList = tasks ? tasks.filter(t => t.listId === id) : []
+  const backgroundStyles = {
+    width: 300,
+    height: 200,
+    padding: 20,
+    margin: 10,
+    borderWidth: 10,
+    borderColor: color,
+    borderRadius: 20,
+    backgroundColor: 'white'
+  }
   return (
-    <View>
-      <TouchableHighlight
-          onPress={() => { navigate('ListDetail', { listList }) }}>
-          <Text>
-            { name }
-          </Text>
-      </TouchableHighlight>
+    <View style= { backgroundStyles }>
+      <Text style= { styles.title }>
+        { name }
+      </Text>
+      {taskList.map(t => <Task key={t.id} {...t} />)}
     </View>
   )
 }
@@ -34,6 +43,5 @@ List.propTypes = {
     description: PropTypes.string,
     isFinished: PropTypes.string,
     listId: PropTypes.number
-  })).isRequired,
-  navigate: PropTypes.func.isRequired
+  })).isRequired
 }

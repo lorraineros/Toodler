@@ -1,13 +1,14 @@
 import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styles from './styles'
 import { List } from '../../components/List'
 import { View } from 'react-native'
 
 const BoardDetail = ({ route }) => {
   const { boardList, navigate } = route.params
   return (
-    <View>
+    <View style={ styles.container }>
       {boardList.map(t => <List key={t.id} {...t} tasks={data.tasks} navigate={navigate}/>)}
     </View>
   )

@@ -1,33 +1,38 @@
 import { StyleSheet } from 'react-native'
-import { darkerBlue, graniteGray } from '../../styles/colors'
+import { darkerBlue, paleCornflowerBlue, stTropaz } from '../../styles/colors'
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: darkerBlue,
+    paddingLeft: 50,
+    paddingRight: 50,
+    margin: 7,
+    borderRadius: 20,
+    backgroundColor: paleCornflowerBlue,
     alignItems: 'center',
     justifyContent: 'space-around'
   },
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: stTropaz
+  },
   paragraph: {
     textAlign: 'center',
-    color: 'white'
+    fontSize: 13,
+    color: darkerBlue
   },
   button: {
-    marginTop: 30,
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderColor: 'white',
-    borderWidth: 2,
-    backgroundColor: graniteGray
+    borderRadius: 10
   },
   buttonText: {
     color: 'white'
   },
-  logo: {
+  image: {
     width: 200,
-    height: 200
+    height: 170
   }
 })
