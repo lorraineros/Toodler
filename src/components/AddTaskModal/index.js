@@ -23,32 +23,35 @@ const AddTaskModal = ({
        <Text style={ styles.title }> Create new task </Text>
        <Text style= { styles.paragraph }> Name </Text>
        <TextInput
-         autoFocus
-         label="Name"
-         value={name}
-         onChangeText={text => setName(text)}
+          style= {styles.textInput }
+          autoFocus
+          label="Name"
+          value={name}
+          onChangeText={text => setName(text)}
        />
        <Text style= { styles.paragraph }> Description </Text>
        <TextInput
-         style= {styles.textInput }
-         autoFocus
-         label="Description"
-         value={description}
-         onChangeText={text => setDescription(text)}
+          style= {styles.textInput }
+          autoFocus
+          label="Description"
+          value={description}
+          onChangeText={text => setDescription(text)}
        />
+       <Text style= { styles.paragraph }> Is Finished? </Text>
        <TextInput
-         style={styles.textInput}
-         autoFocus
-         label="IsFinished"
-         value={isFinished}
-         onChangeText={text => setIsFinished(text)}
+          style={styles.textInput}
+          autoFocus
+          label="IsFinished"
+          value={isFinished}
+          onChangeText={text => setIsFinished(text)}
        />
+       <Text style= { styles.paragraph }> List Id </Text>
        <TextInput
-         style={styles.textInput}
-         autoFocus
-         label="ListId"
-         value={ListId}
-         onChangeText={text => setListId(text)}
+          style={styles.textInput}
+          autoFocus
+          label="ListId"
+          value={ListId}
+          onChangeText={text => setListId(text)}
        />
        <View styleName="horizontal" style={styles.toolbar}>
          <TouchableHighlight style={ styles.cancelButton } onPress={closeModal}>

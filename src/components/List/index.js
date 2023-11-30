@@ -22,7 +22,7 @@ const List = ({
   const taskList = tasks ? tasks.filter(t => t.listId === id) : []
   const backgroundStyles = {
     width: 300,
-    height: 200,
+    height: 300,
     padding: 20,
     paddingBottom: 10,
     margin: 10,
@@ -33,7 +33,7 @@ const List = ({
   }
   const selectedStyle = {
     width: 300,
-    height: 200,
+    height: 300,
     margin: 10,
     borderWidth: 10,
     borderColor: color,
@@ -56,15 +56,16 @@ const List = ({
           { name }
         </Text>
       </TouchableOpacity>
-      {taskList.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
       <Toolbar
         isTaskToolbar={true}
         hasSelected={taskName !== ''}
-        onAdd={() => setIsAddModalOpen(true)} />
+        onAdd={() => setIsAddModalOpen(true)}
+        style={ styles.toolbar }/>
       <AddTaskModal
         defaultTask={tasks}
         isOpen={isAddModalOpen}
         closeModal={() => setIsAddModalOpen(false)}/>
+      {taskList.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
     </View>
   )
 }

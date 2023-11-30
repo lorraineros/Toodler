@@ -4,7 +4,6 @@ import { View, TouchableHighlight, Text } from 'react-native'
 import styles from './styles'
 
 const Toolbar = ({ hasSelected, onAdd, onEdit, onRemove, isTaskToolbar }) => {
-  console.log(hasSelected)
   return (
     <View styleName="horizontal" style={ isTaskToolbar ? styles.taskToolbar : styles.toolbar}>
       <TouchableHighlight

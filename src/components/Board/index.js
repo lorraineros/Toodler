@@ -14,7 +14,6 @@ const Board = ({
   navigate
 }) => {
   const boardList = lists ? lists.filter(l => l.boardId === id) : []
-  console.log('ss', boardName)
   return (
     <View style={ boardName === name ? styles.selected : styles.container }>
       <Text style={ styles.title }>

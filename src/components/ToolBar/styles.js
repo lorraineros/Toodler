@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { darkerBlue } from '../../styles/colors'
+import { darkerBlue, stTropaz } from '../../styles/colors'
 
 const { width: winWidth } = Dimensions.get('window')
 
@@ -13,12 +13,14 @@ export default StyleSheet.create({
     backgroundColor: darkerBlue
   },
   taskToolbar: {
+    marginBottom: 10,
+    borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 250,
+    width: 240,
     height: 40,
-    backgroundColor: darkerBlue
+    backgroundColor: stTropaz
   },
   toolbarAction: {
     flex: 1,
