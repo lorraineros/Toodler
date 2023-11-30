@@ -12,6 +12,7 @@ const AddListModal = ({
 }) => {
   const [name, setName] = useState(defaultList?.name)
   const [color, setColor] = useState(defaultList?.color)
+  const [boardId, setBoardId] = useState(defaultList?.boardId)
 
   return (
     <Modal
@@ -34,6 +35,14 @@ const AddListModal = ({
           label="Color"
           value={color}
           onChangeText={text => setColor(text)}
+          />
+          <Text style= { styles.paragraph }> Board Id </Text>
+          <TextInput
+            style={styles.textInput}
+            autoFocus
+            label="BoardId"
+            value={boardId}
+            onChangeText={text => setBoardId(text)}
           />
           <View styleName="horizontal" style={styles.toolbar}>
             <TouchableHighlight style={ styles.cancelButton } onPress={closeModal}>
