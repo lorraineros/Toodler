@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     paddingLeft: 50,
     paddingRight: 50,
-    margin: 7,
+    margin: 3,
     borderRadius: 20,
     backgroundColor: paleCornflowerBlue,
     alignItems: 'center',
@@ -24,8 +24,7 @@ export default StyleSheet.create({
     color: darkerBlue
   },
   button: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    padding: 5,
     borderRadius: 10
   },
   buttonText: {
@@ -34,5 +33,18 @@ export default StyleSheet.create({
   image: {
     width: 200,
     height: 170
+  },
+  selected: {
+    flex: 1,
+    paddingLeft: 50,
+    paddingRight: 50,
+    margin: 3,
+    borderColor: darkerBlue,
+    borderWidth: 2,
+    borderRadius: 20,
+    backgroundColor: paleCornflowerBlue,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    opacity: 0.5
   }
 })

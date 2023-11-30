@@ -2,6 +2,11 @@ import { StyleSheet } from 'react-native'
 import { darkerBlue, stTropaz } from '../../styles/colors'
 
 export default StyleSheet.create({
+  selected: {
+    borderColor: darkerBlue,
+    borderWidth: 1,
+    borderRadius: 5
+  },
   unfinishTitle: {
     fontSize: 15,
     color: stTropaz

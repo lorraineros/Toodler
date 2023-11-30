@@ -3,28 +3,33 @@ import React from 'react'
 import styles from './styles'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 
-export const Board = ({
+const Board = ({
   id,
   name,
   thumbnailPhoto,
   description,
   lists,
+  boardName,
+  selectBoard,
   navigate
 }) => {
   const boardList = lists ? lists.filter(l => l.boardId === id) : []
-  console.log('a', boardList)
+  console.log('ss', boardName)
   return (
-    <View style={ styles.container }>
+    <View style={ boardName === name ? styles.selected : styles.container }>
       <Text style={ styles.title }>
         { name }
       </Text>
       <Text style={ styles.paragraph }>
         { description || name }
       </Text>
-      <Image
-        style={ styles.image }
-        resizeMode='cover'
-        source={{ uri: thumbnailPhoto }}/>
+      <TouchableOpacity
+        onPress={() => boardName === name ? selectBoard('') : selectBoard(name)}>
+        <Image
+          style={ styles.image }
+          resizeMode='cover'
+          source={{ uri: thumbnailPhoto }}/>
+      </TouchableOpacity>
       <TouchableOpacity
         style={ styles.button }
         onPress={() => { navigate('BoardDetail', { boardList, navigate }) }}>
@@ -47,5 +52,9 @@ Board.propTypes = {
     color: PropTypes.string,
     boardId: PropTypes.number
   })).isRequired,
+  boardName: PropTypes.string.isRequired,
+  selectBoard: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired
 }
+
+export default Board

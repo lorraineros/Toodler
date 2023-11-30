@@ -1,16 +1,19 @@
 import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styles from './styles'
 import { View } from 'react-native'
-import { Board } from '../Board'
+import Board from '../Board'
 
-export const BoardList = ({
+const BoardList = ({
   boards,
+  selectBoard,
+  boardName,
   navigate
 }) => {
   return (
-    <View>
-      {boards.map(b => <Board key={b.id} {...b} lists={data.lists} navigate={navigate}/>)}
+    <View style={ styles.container }>
+      {boards.map(b => <Board key={b.id} {...b} lists={data.lists} boardName={boardName} selectBoard={selectBoard} navigate={navigate}/>)}
     </View>
   )
 }
@@ -21,5 +24,9 @@ BoardList.propTypes = {
     name: PropTypes.string.isRequired,
     thumbnailPhoto: PropTypes.string
   })).isRequired,
+  boardName: PropTypes.string.isRequired,
+  selectBoard: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired
 }
+
+export default BoardList

@@ -4,7 +4,7 @@ import { jordyBlue, graniteGray } from '../../styles/colors'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    top: 11,
     backgroundColor: jordyBlue,
     alignItems: 'center',
     justifyContent: 'space-around'
