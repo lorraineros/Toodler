@@ -24,7 +24,7 @@ const Board = ({
         { name }
       </Text>
       <Text style={ styles.paragraph }>
-        { description || name }
+        { description }
       </Text>
       <TouchableOpacity
         onPress={() => boardName === name ? selectBoard('') : selectBoard(name)}>
