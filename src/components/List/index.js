@@ -22,7 +22,8 @@ const List = ({
   const [selectedTask, setSelectedTask] = useState()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isDeleteList, setIsDeleteList] = useState(false)
-  const [taskList, setTasks] = useState(tasks ? tasks.filter(t => t.listId === id) : [])
+  const [boardTasks, setBoardTasks] = useState(tasks ? tasks.filter(t => t.listId === id) : [])
+  const [taskList, setTasks] = useState(tasks)
 
   useEffect(() => {
     setTaskList(taskList)
@@ -54,23 +55,28 @@ const List = ({
 
   const addTask = (name, description) => {
     const newId = Math.max(...taskList.map(t => t.id)) + 1
-    const updatedTasks = [...taskList, {
+    const newTask = {
       id: newId,
       name,
       description,
       isFinished: false,
       listId: id
-    }]
-    setTasks(updatedTasks)
+    }
+    setTasks([...taskList, newTask])
+    setBoardTasks([...boardTasks, newTask])
     setIsAddModalOpen(false)
   }
 
   const editTask = (name, description, isFinished, listId) => {
     if (selectedTask) {
-      const updatedTasks = taskList.map((task) =>
+      const updatedTaskList = taskList.map((task) =>
         task.id === selectedTask.id ? { ...task, name, description, isFinished, listId } : task
       )
-      setTasks(updatedTasks)
+      const updatedBoardTask = boardTasks.map((task) =>
+        task.id === selectedTask.id ? { ...task, name, description, isFinished, listId } : task
+      )
+      setTasks(updatedTaskList)
+      setBoardTasks(updatedBoardTask)
       setIsAddModalOpen(false)
       setSelectedTask(null)
     }
@@ -108,7 +114,7 @@ const List = ({
           isOpen={isAddModalOpen}
           closeModal={() => setIsAddModalOpen(false)}
           submitModal={selectedTask ? editTask : addTask}/>
-        {taskList.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
+        {boardTasks.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
       </View>
     </ScrollView>
   )
