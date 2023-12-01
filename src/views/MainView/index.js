@@ -3,19 +3,25 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import styles from './styles'
+import AddBoardModal from '../../components/AddBoardModal'
 import BoardList from '../../components/BoardList'
 import Toolbar from '../../components/ToolBar'
-import AddBoardModal from '../../components/AddBoardModal'
+import * as imageService from '../../services/imageService'
+import * as fileService from '../../services/fileService'
 
 const Main = ({ navigation: { navigate } }) => {
   const [boards, setBoards] = useState(data.boards || [])
   const [selectedBoard, setSelectedBoard] = useState()
   const [boardName, setBoardName] = useState('')
+  const [image, setImage] = useState()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   useEffect(() => {
-    console.log('Updated boards:', boards)
-  }, [boards])
+    (async () => {
+      const images = await fileService.getAllImages()
+      setImage(images)
+    })()
+  }, [])
 
   const addBoard = (name, description, thumbnailPhoto) => {
     const id = Math.max(...boards.map(b => b.id)) + 1
@@ -52,6 +58,29 @@ const Main = ({ navigation: { navigate } }) => {
     setBoardName(name)
   }
 
+  const selectPhoto = async () => {
+    try {
+      const photo = await imageService.selectFromCameraRoll()
+      console.log(photo)
+      if (photo) {
+        await addImage(photo)
+      }
+    } catch (error) {
+      console.error('Error selecting photo:', error)
+    }
+  }
+
+  const addImage = async image => {
+    try {
+      const newImage = await fileService.addImage(image)
+      console.log(newImage.name)
+      setImage(newImage)
+      setIsAddModalOpen(false)
+    } catch (error) {
+      console.error('Error adding image:', error)
+    }
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -62,6 +91,7 @@ const Main = ({ navigation: { navigate } }) => {
         <AddBoardModal
           defaultBoard={selectedBoard}
           isOpen={isAddModalOpen}
+          selectPhoto={() => selectPhoto()}
           closeModal={() => setIsAddModalOpen(false)}
           submitModal={selectedBoard ? editBoard : addBoard}/>
         <BoardList navigate={navigate} boards={boards} deleteBoard={deleteBoard} selectBoard={selectBoard} boardName={boardName}/>

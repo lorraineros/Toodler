@@ -31,6 +31,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10
   },
+  button: {
+    padding: 3,
+    borderRadius: 5,
+    borderColor: paleCornflowerBlue,
+    borderWidth: 2
+  },
   cancelButton: {
     backgroundColor: 'red',
     padding: 5,

@@ -7,6 +7,7 @@ import Modal from '../Modal'
 const AddBoardModal = ({
   defaultBoard,
   isOpen,
+  selectPhoto,
   submitModal,
   closeModal
 }) => {
@@ -56,6 +57,10 @@ const AddBoardModal = ({
           value={thumbnailPhoto}
           onChangeText={text => setThumbnailPhoto(text)}
         />
+        <Text style={styles.paragraph}> or </Text>
+        <TouchableHighlight style={styles.button} onPress={() => selectPhoto()}>
+          <Text style={styles.paragraph} >Choose a file</Text>
+        </TouchableHighlight>
         <View styleName="horizontal" style={styles.toolbar}>
           <TouchableHighlight style={styles.cancelButton} onPress={closeModal}>
             <Text style={styles.buttonText}>Cancel</Text>
@@ -76,6 +81,7 @@ AddBoardModal.propTypes = {
     thumbnailPhoto: PropTypes.string.isRequired
   }),
   isOpen: PropTypes.bool.isRequired,
+  selectPhoto: PropTypes.func.isRequired,
   submitModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired
 }
