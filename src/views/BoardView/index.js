@@ -1,3 +1,4 @@
+import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import styles from './styles'
@@ -12,7 +13,7 @@ const BoardDetail = ({ route }) => {
   const [selectedList, setSelectedList] = useState()
   const [listName, setListName] = useState('')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const boardId = boardList[0].boardId
+  const boardId = boardList.length > 0 ? boardList[0].boardId : 0
   // const [isDeleteList, setIsDeletelist] = useState(false)
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const BoardDetail = ({ route }) => {
   }, [lists, taskList])
 
   const addList = (name, color) => {
-    const id = Math.max(...lists.map(l => l.id)) + 1
+    const id = Math.max(...data.lists.map(l => l.id)) + 1
     const updatedLists = [...lists, {
       id,
       name,
