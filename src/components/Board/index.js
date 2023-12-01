@@ -1,5 +1,6 @@
+import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './styles'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 
@@ -13,7 +14,9 @@ const Board = ({
   selectBoard,
   navigate
 }) => {
-  const boardList = lists ? lists.filter(l => l.boardId === id) : []
+  const [boardList, setBoardList] = useState(lists ? lists.filter(l => l.boardId === id) : [])
+  const [taskList, setTaskList] = useState(data.tasks || [])
+
   return (
     <View style={ boardName === name ? styles.selected : styles.container }>
       <Text style={ styles.title }>
@@ -31,7 +34,7 @@ const Board = ({
       </TouchableOpacity>
       <TouchableOpacity
         style={ styles.button }
-        onPress={() => { navigate('BoardDetail', { boardList, navigate }) }}>
+        onPress={() => { navigate('BoardDetail', { boardList, setBoardList, taskList, setTaskList, navigate }) }}>
         <Text>
           More Detail...
         </Text>

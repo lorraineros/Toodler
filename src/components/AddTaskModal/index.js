@@ -1,5 +1,6 @@
+import Checkbox from 'expo-checkbox'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles'
 import Modal from '../Modal'
 import { Text, TextInput, TouchableHighlight, View } from 'react-native'
@@ -10,54 +11,72 @@ const AddTaskModal = ({
   submitModal,
   closeModal
 }) => {
-  const [name, setName] = useState(defaultTask?.name)
-  const [description, setDescription] = useState(defaultTask?.description)
-  const [isFinished, setIsFinished] = useState(defaultTask?.isFinished)
-  const [ListId, setListId] = useState(defaultTask.ListId)
+  const [name, setName] = useState(defaultTask?.name || '')
+  const [description, setDescription] = useState(defaultTask?.description || '')
+  const [isFinished, setIsFinished] = useState(defaultTask?.isFinished || false)
+  const [listId, setListId] = useState(defaultTask?.listId || '')
+
+  useEffect(() => {
+    if (defaultTask) {
+      console.log(defaultTask)
+      setName(defaultTask.name || '')
+      setDescription(defaultTask.description || '')
+      setIsFinished(defaultTask.isFinished || false)
+      setListId(defaultTask.listId || '')
+    } else {
+      setName('')
+      setDescription('')
+      setIsFinished(false)
+      setListId('')
+    }
+  }, [defaultTask])
 
   return (
    <Modal
    isOpen={isOpen}
    closeModal={closeModal}>
    <View>
-       <Text style={ styles.title }> Create new task </Text>
+       <Text style={ styles.title }> {defaultTask ? 'Edit task' : 'Create new task'} </Text>
        <Text style= { styles.paragraph }> Name </Text>
        <TextInput
-          style= {styles.textInput }
-          autoFocus
-          label="Name"
-          value={name}
-          onChangeText={text => setName(text)}
+         style= {styles.textInput }
+         autoFocus
+         label="Name"
+         value={name}
+         onChangeText={text => setName(text)}
        />
        <Text style= { styles.paragraph }> Description </Text>
        <TextInput
-          style= {styles.textInput }
-          autoFocus
-          label="Description"
-          value={description}
-          onChangeText={text => setDescription(text)}
+         style= {styles.textInput }
+         autoFocus
+         label="Description"
+         value={description}
+         onChangeText={text => setDescription(text)}
        />
-       <Text style= { styles.paragraph }> Is Finished? </Text>
-       <TextInput
-          style={styles.textInput}
-          autoFocus
-          label="IsFinished"
-          value={isFinished}
-          onChangeText={text => setIsFinished(text)}
-       />
-       <Text style= { styles.paragraph }> List Id </Text>
-       <TextInput
-          style={styles.textInput}
-          autoFocus
-          label="ListId"
-          value={ListId}
-          onChangeText={text => setListId(text)}
-       />
+       {defaultTask && (
+        <View>
+          <View style={styles.checkboxContainer}>
+            <Text style={styles.checkboxLabel}>Is Finished</Text>
+            <Checkbox
+              value={isFinished}
+              onValueChange={(value) => setIsFinished(value)}
+            />
+          </View>
+          <Text style={styles.paragraph}>List ID</Text>
+          <TextInput
+            style={styles.textInput}
+            autoFocus
+            label="List ID"
+            value={listId.toString()}
+            onChangeText={(text) => setListId(text)}
+          />
+        </View>
+       )}
        <View styleName="horizontal" style={styles.toolbar}>
          <TouchableHighlight style={ styles.cancelButton } onPress={closeModal}>
            <Text style={ styles.buttonText }>Cancel</Text>
          </TouchableHighlight>
-         <TouchableHighlight style={ styles.submitButton } onPress={submitModal}>
+         <TouchableHighlight style={ styles.submitButton } onPress={() => submitModal(name, description)}>
             <Text style={ styles.buttonText }>Confirm</Text>
           </TouchableHighlight>
        </View>
@@ -71,7 +90,7 @@ AddTaskModal.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     isFinished: PropTypes.bool.isRequired,
-    ListId: PropTypes.number.isRequired
+    listId: PropTypes.number.isRequired
   }),
   isOpen: PropTypes.bool.isRequired,
   submitModal: PropTypes.func.isRequired,

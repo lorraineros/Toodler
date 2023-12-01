@@ -3,7 +3,6 @@ import { darkerBlue, paleCornflowerBlue, stTropaz } from '../../styles/colors'
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
     paddingLeft: 50,
     paddingRight: 50,
     margin: 3,
@@ -35,7 +34,6 @@ export default StyleSheet.create({
     height: 170
   },
   selected: {
-    flex: 1,
     paddingLeft: 50,
     paddingRight: 50,
     margin: 3,
@@ -44,7 +42,6 @@ export default StyleSheet.create({
     borderRadius: 20,
     backgroundColor: paleCornflowerBlue,
     alignItems: 'center',
-    justifyContent: 'space-around',
     opacity: 0.5
   }
 })

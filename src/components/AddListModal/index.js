@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles'
 import Modal from '../Modal'
 import { Text, TextInput, TouchableHighlight, View } from 'react-native'
@@ -10,16 +10,25 @@ const AddListModal = ({
   submitModal,
   closeModal
 }) => {
-  const [name, setName] = useState(defaultList?.name)
-  const [color, setColor] = useState(defaultList?.color)
-  const [boardId, setBoardId] = useState(defaultList?.boardId)
+  const [name, setName] = useState(defaultList?.name || '')
+  const [color, setColor] = useState(defaultList?.color || '')
+
+  useEffect(() => {
+    if (defaultList) {
+      setName(defaultList.name || '')
+      setColor(defaultList.color || '')
+    } else {
+      setName('')
+      setColor('')
+    }
+  }, [defaultList])
 
   return (
     <Modal
       isOpen={isOpen}
       closeModal={closeModal}>
         <View>
-          <Text style={ styles.title }> Create new list </Text>
+          <Text style={ styles.title }> {defaultList ? 'Edit list' : 'Create new list'} </Text>
           <Text style={ styles.paragraph }>Name</Text>
           <TextInput
           style={ styles.textInput }
@@ -36,19 +45,11 @@ const AddListModal = ({
           value={color}
           onChangeText={text => setColor(text)}
           />
-          <Text style= { styles.paragraph }> Board Id </Text>
-          <TextInput
-            style={styles.textInput}
-            autoFocus
-            label="BoardId"
-            value={boardId}
-            onChangeText={text => setBoardId(text)}
-          />
           <View styleName="horizontal" style={styles.toolbar}>
             <TouchableHighlight style={ styles.cancelButton } onPress={closeModal}>
             <Text style={ styles.buttonText }>Cancel</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={ styles.submitButton } onPress={submitModal}>
+            <TouchableHighlight style={ styles.submitButton } onPress={() => submitModal(name, color)}>
               <Text style={ styles.buttonText }>Confirm</Text>
             </TouchableHighlight>
           </View>
@@ -60,8 +61,7 @@ const AddListModal = ({
 AddListModal.propTypes = {
   defaultList: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
-    boardId: PropTypes.number.isRequired
+    color: PropTypes.string.isRequired
   }),
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,

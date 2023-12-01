@@ -3,13 +3,13 @@ import React from 'react'
 import { View, TouchableHighlight, Text } from 'react-native'
 import styles from './styles'
 
-const Toolbar = ({ hasSelected, onAdd, onEdit, onRemove, isTaskToolbar }) => {
+const Toolbar = ({ hasSelected, onAdd, onEdit, onDelete, isTaskToolbar }) => {
   return (
     <View styleName="horizontal" style={ isTaskToolbar ? styles.taskToolbar : styles.toolbar}>
       <TouchableHighlight
         style={styles.toolbarAction}
         onPress={onAdd}>
-        <Text style={styles.toolbarActionText}>Create</Text>
+        <Text style={[styles.toolbarActionText, hasSelected ? { color: 'rgba(155, 155, 155, .5)' } : {}]}>Create</Text>
       </TouchableHighlight>
       <TouchableHighlight
         style={styles.toolbarAction}
@@ -19,7 +19,7 @@ const Toolbar = ({ hasSelected, onAdd, onEdit, onRemove, isTaskToolbar }) => {
       </TouchableHighlight>
       <TouchableHighlight
         style={styles.toolbarAction}
-        onPress={onRemove}
+        onPress={onDelete}
         disabled={!hasSelected}>
         <Text style={[styles.toolbarActionText, !hasSelected ? { color: 'rgba(155, 155, 155, .5)' } : {}]}>Delete</Text>
       </TouchableHighlight>
@@ -32,7 +32,7 @@ Toolbar.propTypes = {
   isTaskToolbar: PropTypes.bool.isRequired,
   onAdd: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired
 }
 
 export default Toolbar

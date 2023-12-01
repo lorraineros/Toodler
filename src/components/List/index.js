@@ -1,6 +1,6 @@
 import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Task from '../Task'
 import { Text, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
@@ -14,12 +14,20 @@ const List = ({
   boardId,
   listName,
   selectList,
-  tasks
+  tasks,
+  setTaskList,
+  deleteList
 }) => {
   const [taskName, setTaskName] = useState('')
-  const [selectedTask, setSelectedTask] = useState([])
+  const [selectedTask, setSelectedTask] = useState()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const taskList = tasks ? tasks.filter(t => t.listId === id) : []
+  const [isDeleteList, setIsDeleteList] = useState(false)
+  const [taskList, setTasks] = useState(tasks ? tasks.filter(t => t.listId === id) : [])
+
+  useEffect(() => {
+    setTaskList(taskList)
+  }, [taskList])
+
   const backgroundStyles = {
     width: 300,
     height: 300,
@@ -42,10 +50,39 @@ const List = ({
     opacity: 0.5
   }
 
+  const addTask = (name, description) => {
+    const newId = Math.max(...taskList.map(t => t.id)) + 1
+    const updatedTasks = [...taskList, {
+      id: newId,
+      name,
+      description,
+      isFinished: false,
+      listId: id
+    }]
+    setTasks(updatedTasks)
+    setIsAddModalOpen(false)
+  }
+
+  const editTask = (name, description, isFinished, listId) => {
+    if (selectedTask) {
+      const updatedTasks = tasks.map((task) =>
+        task.id === selectedTask.id ? { ...task, name, description, isFinished, listId } : task
+      )
+      setTaskList(updatedTasks)
+      setIsAddModalOpen(false)
+      setSelectedTask([])
+    }
+  }
+
   const selectTask = name => {
-    const task = data.tasks.find(t => t.name === name)
+    const task = taskList.find(t => t.name === name)
     setSelectedTask(task)
     setTaskName(name)
+  }
+
+  const handleDeleteList = id => {
+    deleteList(id)
+    setIsDeleteList(true)
   }
 
   return (
@@ -60,11 +97,14 @@ const List = ({
         isTaskToolbar={true}
         hasSelected={taskName !== ''}
         onAdd={() => setIsAddModalOpen(true)}
+        onEdit={() => setIsAddModalOpen(true)}
+        onDelete={() => setIsDeleteList(true)}
         style={ styles.toolbar }/>
       <AddTaskModal
-        defaultTask={tasks}
+        defaultTask={selectedTask}
         isOpen={isAddModalOpen}
-        closeModal={() => setIsAddModalOpen(false)}/>
+        closeModal={() => setIsAddModalOpen(false)}
+        submitModal={selectedTask ? editTask : addTask}/>
       {taskList.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
     </View>
   )
@@ -77,13 +117,15 @@ List.propTypes = {
   boardId: PropTypes.number,
   listName: PropTypes.string.isRequired,
   selectList: PropTypes.func.isRequired,
+  deleteList: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     isFinished: PropTypes.string,
     listId: PropTypes.number
-  })).isRequired
+  })).isRequired,
+  setTaskList: PropTypes.func.isRequired
 }
 
 export default List
