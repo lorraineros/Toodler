@@ -33,7 +33,7 @@ Task.propTypes = {
   id: PropTypes.number,
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
-  isFinished: PropTypes.string,
+  isFinished: PropTypes.bool,
   listId: PropTypes.number,
   taskName: PropTypes.string,
   selectTask: PropTypes.func
