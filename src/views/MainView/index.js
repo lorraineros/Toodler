@@ -14,7 +14,7 @@ const Main = ({ navigation: { navigate } }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   useEffect(() => {
-    console.log('Updated boards:', boards)
+    setBoards(boards)
   }, [boards])
 
   const addBoard = (name, description, thumbnailPhoto) => {

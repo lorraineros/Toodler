@@ -39,6 +39,7 @@ const BoardDetail = ({ route }) => {
         list.id === selectedList.id ? { ...list, name, color } : list
       )
       setLists(updatedLists)
+      setListName(null)
       setIsAddModalOpen(false)
       setSelectedList(null)
     }

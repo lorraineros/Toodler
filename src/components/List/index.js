@@ -2,7 +2,7 @@ import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import Task from '../Task'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
 import Toolbar from '../ToolBar'
 import AddTaskModal from '../AddTaskModal'
@@ -42,6 +42,8 @@ const List = ({
   const selectedStyle = {
     width: 300,
     height: 300,
+    padding: 20,
+    paddingBottom: 10,
     margin: 10,
     borderWidth: 10,
     borderColor: color,
@@ -65,10 +67,10 @@ const List = ({
 
   const editTask = (name, description, isFinished, listId) => {
     if (selectedTask) {
-      const updatedTasks = tasks.map((task) =>
+      const updatedTasks = taskList.map((task) =>
         task.id === selectedTask.id ? { ...task, name, description, isFinished, listId } : task
       )
-      setTaskList(updatedTasks)
+      setTasks(updatedTasks)
       setIsAddModalOpen(false)
       setSelectedTask(null)
     }
@@ -86,27 +88,29 @@ const List = ({
   }
 
   return (
-    <View style= { listName === name ? selectedStyle : backgroundStyles }>
-      <TouchableOpacity
-        onPress={() => listName === name ? selectList('') : selectList(name)}>
-        <Text style= { styles.title }>
-          { name }
-        </Text>
-      </TouchableOpacity>
-      <Toolbar
-        isTaskToolbar={true}
-        hasSelected={taskName !== ''}
-        onAdd={() => setIsAddModalOpen(true)}
-        onEdit={() => setIsAddModalOpen(true)}
-        onDelete={() => setIsDeleteList(true)}
-        style={ styles.toolbar }/>
-      <AddTaskModal
-        defaultTask={selectedTask}
-        isOpen={isAddModalOpen}
-        closeModal={() => setIsAddModalOpen(false)}
-        submitModal={selectedTask ? editTask : addTask}/>
-      {taskList.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
-    </View>
+    <ScrollView>
+      <View style= { listName === name ? selectedStyle : backgroundStyles }>
+        <TouchableOpacity
+          onPress={() => listName === name ? selectList('') : selectList(name)}>
+          <Text style= { styles.title }>
+            { name }
+          </Text>
+        </TouchableOpacity>
+        <Toolbar
+          isTaskToolbar={true}
+          hasSelected={taskName !== ''}
+          onAdd={() => setIsAddModalOpen(true)}
+          onEdit={() => setIsAddModalOpen(true)}
+          onDelete={() => setIsDeleteList(true)}
+          style={ styles.toolbar }/>
+        <AddTaskModal
+          defaultTask={selectedTask}
+          isOpen={isAddModalOpen}
+          closeModal={() => setIsAddModalOpen(false)}
+          submitModal={selectedTask ? editTask : addTask}/>
+        {taskList.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
+      </View>
+    </ScrollView>
   )
 }
 
@@ -122,7 +126,7 @@ List.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    isFinished: PropTypes.string,
+    isFinished: PropTypes.bool,
     listId: PropTypes.number
   })).isRequired,
   setTaskList: PropTypes.func.isRequired

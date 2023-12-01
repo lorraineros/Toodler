@@ -14,15 +14,14 @@ const AddTaskModal = ({
   const [name, setName] = useState(defaultTask?.name || '')
   const [description, setDescription] = useState(defaultTask?.description || '')
   const [isFinished, setIsFinished] = useState(defaultTask?.isFinished || false)
-  const [listId, setListId] = useState(defaultTask?.listId || '')
+  const [listId, setListId] = useState(defaultTask?.listId || 0)
 
   useEffect(() => {
     if (defaultTask) {
-      console.log('task:', defaultTask)
       setName(defaultTask.name || '')
       setDescription(defaultTask.description || '')
       setIsFinished(defaultTask.isFinished || false)
-      setListId(defaultTask.listId || '')
+      setListId(defaultTask.listId || 0)
     } else {
       setName('')
       setDescription('')
@@ -60,7 +59,7 @@ const AddTaskModal = ({
             <Checkbox
               style={styles.checkbox}
               value={isFinished}
-              onValueChange={(value) => setIsFinished(value)}
+              onValueChange={setIsFinished}
             />
           </View>
           <Text style={styles.paragraph}>List ID</Text>
@@ -69,7 +68,7 @@ const AddTaskModal = ({
             autoFocus
             label="List ID"
             value={listId.toString()}
-            onChangeText={(text) => setListId(text)}
+            onChangeText={(text) => setListId(parseInt(text, 10) || 0)}
           />
         </View>
        )}
