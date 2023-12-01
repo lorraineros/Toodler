@@ -9,7 +9,8 @@ const AddBoardModal = ({
   isOpen,
   selectPhoto,
   submitModal,
-  closeModal
+  closeModal,
+  image
 }) => {
   const [name, setName] = useState(defaultBoard?.name || '')
   const [description, setDescription] = useState(defaultBoard?.description || '')
@@ -65,7 +66,7 @@ const AddBoardModal = ({
           <TouchableHighlight style={styles.cancelButton} onPress={closeModal}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.submitButton} onPress={() => submitModal(name, description, thumbnailPhoto)}>
+          <TouchableHighlight style={styles.submitButton} onPress={() => submitModal(name, description, thumbnailPhoto, image)}>
             <Text style={styles.buttonText}>Confirm</Text>
           </TouchableHighlight>
         </View>
@@ -83,7 +84,12 @@ AddBoardModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   selectPhoto: PropTypes.func.isRequired,
   submitModal: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
+  image: PropTypes.shape({
+    file: PropTypes.string,
+    name: PropTypes.string,
+    date: PropTypes.string
+  })
 }
 
 export default AddBoardModal

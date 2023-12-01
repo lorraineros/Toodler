@@ -12,6 +12,7 @@ const Board = ({
   lists,
   boardName,
   selectBoard,
+  image,
   navigate
 }) => {
   const [boardList, setBoardList] = useState(lists ? lists.filter(l => l.boardId === id) : [])
@@ -27,10 +28,17 @@ const Board = ({
       </Text>
       <TouchableOpacity
         onPress={() => boardName === name ? selectBoard('') : selectBoard(name)}>
-        <Image
-          style={ styles.image }
-          resizeMode='cover'
-          source={{ uri: thumbnailPhoto }}/>
+        {
+          image
+            ? <Image
+                style={ styles.image }
+                resizeMode='cover'
+                source={{ uri: `data:image/jpeg;base64,${image.file}` }}/>
+            : <Image
+                style={ styles.image }
+                resizeMode='cover'
+                source={{ uri: thumbnailPhoto }}/>
+        }
       </TouchableOpacity>
       <TouchableOpacity
         style={ styles.button }
@@ -56,6 +64,11 @@ Board.propTypes = {
   })).isRequired,
   boardName: PropTypes.string.isRequired,
   selectBoard: PropTypes.func.isRequired,
+  image: PropTypes.shape({
+    file: PropTypes.string,
+    name: PropTypes.string,
+    date: PropTypes.string
+  }),
   navigate: PropTypes.func.isRequired
 }
 

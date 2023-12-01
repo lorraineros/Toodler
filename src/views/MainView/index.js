@@ -1,6 +1,6 @@
 import data from '../../resources/data.json'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import styles from './styles'
 import AddBoardModal from '../../components/AddBoardModal'
@@ -16,29 +16,29 @@ const Main = ({ navigation: { navigate } }) => {
   const [image, setImage] = useState()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
-  useEffect(() => {
-    (async () => {
-      const images = await fileService.getAllImages()
-      setImage(images)
-    })()
-  }, [])
-
-  const addBoard = (name, description, thumbnailPhoto) => {
+  const addBoard = (name, description, thumbnailPhoto, image) => {
     const id = Math.max(...boards.map(b => b.id)) + 1
+    if (thumbnailPhoto) {
+      image = null
+    }
     const updatedBoards = [...boards, {
       id,
       name,
       description,
-      thumbnailPhoto
+      thumbnailPhoto,
+      image
     }]
     setBoards(updatedBoards)
     setIsAddModalOpen(false)
   }
 
-  const editBoard = (name, description, thumbnailPhoto) => {
+  const editBoard = (name, description, thumbnailPhoto, image) => {
+    if (thumbnailPhoto) {
+      image = null
+    }
     if (selectedBoard) {
       const updatedBoards = boards.map((board) =>
-        board.id === selectedBoard.id ? { ...board, name, description, thumbnailPhoto } : board
+        board.id === selectedBoard.id ? { ...board, name, description, thumbnailPhoto, image } : board
       )
       setBoards(updatedBoards)
       setIsAddModalOpen(false)
@@ -59,26 +59,15 @@ const Main = ({ navigation: { navigate } }) => {
   }
 
   const selectPhoto = async () => {
-    try {
-      const photo = await imageService.selectFromCameraRoll()
-      console.log(photo)
-      if (photo) {
-        await addImage(photo)
-      }
-    } catch (error) {
-      console.error('Error selecting photo:', error)
+    const photo = await imageService.selectFromCameraRoll()
+    if (photo) {
+      await addImage(photo)
     }
   }
 
   const addImage = async image => {
-    try {
-      const newImage = await fileService.addImage(image)
-      console.log(newImage.name)
-      setImage(newImage)
-      setIsAddModalOpen(false)
-    } catch (error) {
-      console.error('Error adding image:', error)
-    }
+    const newImage = await fileService.addImage(image)
+    setImage(newImage)
   }
 
   return (
@@ -93,7 +82,8 @@ const Main = ({ navigation: { navigate } }) => {
           isOpen={isAddModalOpen}
           selectPhoto={() => selectPhoto()}
           closeModal={() => setIsAddModalOpen(false)}
-          submitModal={selectedBoard ? editBoard : addBoard}/>
+          submitModal={selectedBoard ? editBoard : addBoard}
+          image={image}/>
         <BoardList navigate={navigate} boards={boards} deleteBoard={deleteBoard} selectBoard={selectBoard} boardName={boardName}/>
       </View>
     </ScrollView>
