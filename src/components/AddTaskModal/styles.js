@@ -42,5 +42,15 @@ export default StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     width: 70
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  checkbox: {
+    borderRadius: 5,
+    borderColor: paleCornflowerBlue,
+    borderWidth: 2,
+    margin: 5
   }
 })

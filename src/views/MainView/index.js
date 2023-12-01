@@ -36,7 +36,7 @@ const Main = ({ navigation: { navigate } }) => {
       )
       setBoards(updatedBoards)
       setIsAddModalOpen(false)
-      setSelectedBoard([])
+      setSelectedBoard(null)
     }
   }
 

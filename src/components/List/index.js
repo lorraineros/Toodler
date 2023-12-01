@@ -70,7 +70,7 @@ const List = ({
       )
       setTaskList(updatedTasks)
       setIsAddModalOpen(false)
-      setSelectedTask([])
+      setSelectedTask(null)
     }
   }
 

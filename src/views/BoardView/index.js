@@ -40,7 +40,7 @@ const BoardDetail = ({ route }) => {
       )
       setLists(updatedLists)
       setIsAddModalOpen(false)
-      setSelectedList([])
+      setSelectedList(null)
     }
   }
 

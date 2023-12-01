@@ -18,7 +18,7 @@ const AddTaskModal = ({
 
   useEffect(() => {
     if (defaultTask) {
-      console.log(defaultTask)
+      console.log('task:', defaultTask)
       setName(defaultTask.name || '')
       setDescription(defaultTask.description || '')
       setIsFinished(defaultTask.isFinished || false)
@@ -56,8 +56,9 @@ const AddTaskModal = ({
        {defaultTask && (
         <View>
           <View style={styles.checkboxContainer}>
-            <Text style={styles.checkboxLabel}>Is Finished</Text>
+            <Text style={styles.paragraph}>Finished?</Text>
             <Checkbox
+              style={styles.checkbox}
               value={isFinished}
               onValueChange={(value) => setIsFinished(value)}
             />
@@ -76,7 +77,7 @@ const AddTaskModal = ({
          <TouchableHighlight style={ styles.cancelButton } onPress={closeModal}>
            <Text style={ styles.buttonText }>Cancel</Text>
          </TouchableHighlight>
-         <TouchableHighlight style={ styles.submitButton } onPress={() => submitModal(name, description)}>
+         <TouchableHighlight style={ styles.submitButton } onPress={() => submitModal(name, description, isFinished, listId)}>
             <Text style={ styles.buttonText }>Confirm</Text>
           </TouchableHighlight>
        </View>
