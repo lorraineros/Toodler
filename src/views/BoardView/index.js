@@ -14,7 +14,6 @@ const BoardDetail = ({ route }) => {
   const [listName, setListName] = useState('')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const boardId = boardList.length > 0 ? boardList[0].boardId : 0
-  // const [isDeleteList, setIsDeletelist] = useState(false)
 
   useEffect(() => {
     setBoardList(lists)
