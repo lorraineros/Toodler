@@ -11,17 +11,14 @@ const List = ({
   id,
   name,
   color,
-  boardId,
   listName,
   selectList,
   tasks,
-  setTaskList,
-  deleteList
+  setTaskList
 }) => {
   const [taskName, setTaskName] = useState('')
   const [selectedTask, setSelectedTask] = useState()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const [isDeleteList, setIsDeleteList] = useState(false)
   const [taskList, setTasks] = useState(tasks)
   const [boardTasks, setBoardTasks] = useState(taskList ? taskList.filter(t => t.listId === id) : [])
 
@@ -84,9 +81,9 @@ const List = ({
     setTaskName(name)
   }
 
-  const handleDeleteList = id => {
-    deleteList(id)
-    setIsDeleteList(true)
+  const deleteTask = (taskId) => {
+    const updatedTaskList = taskList.filter((task) => task.id !== taskId);
+    setTasks(updatedTaskList);
   }
 
   return (
@@ -103,27 +100,28 @@ const List = ({
           hasSelected={taskName !== ''}
           onAdd={() => setIsAddModalOpen(true)}
           onEdit={() => setIsAddModalOpen(true)}
-          onDelete={() => setIsDeleteList(true)}
+          onDelete={() => deleteTask(selectedTask.id)}
           style={ styles.toolbar }/>
         <AddTaskModal
           defaultTask={selectedTask}
           isOpen={isAddModalOpen}
           closeModal={() => setIsAddModalOpen(false)}
-          submitModal={selectedTask ? editTask : addTask}/>
-        {boardTasks.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} />)}
-      </View>
+          submitModal={selectedTask ? editTask : addTask}
+          />
+          {boardTasks.map(t => <Task key={t.id} {...t} selectTask={selectTask} taskName={taskName} deleteTask={deleteTask} />)}
+        </View>
     </ScrollView>
   )
 }
 
-List.propTypes = {
+List.propTypes = { 
   id: PropTypes.number,
   name: PropTypes.string.isRequired,
   color: PropTypes.string,
   boardId: PropTypes.number,
   listName: PropTypes.string.isRequired,
   selectList: PropTypes.func.isRequired,
-  deleteList: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired,

@@ -4,16 +4,15 @@ import styles from './styles'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 const Task = ({
-  id,
   name,
   description,
   isFinished,
-  listId,
   taskName,
-  selectTask
+  selectTask,
 }) => {
   const titleStyle = isFinished ? styles.finishTitle : styles.unfinishTitle
   const paraStyle = isFinished ? styles.finishPara : styles.unfinishPara
+
   return (
     <View style= { taskName === name ? styles.selected : null }>
       <TouchableOpacity
@@ -22,9 +21,7 @@ const Task = ({
           {'\u2023'} { name }
         </Text>
       </TouchableOpacity>
-      <Text style={ paraStyle }>
-        { description }
-      </Text>
+      <Text style={ paraStyle }>{ description }</Text>
     </View>
   )
 }
@@ -36,7 +33,8 @@ Task.propTypes = {
   isFinished: PropTypes.bool,
   listId: PropTypes.number,
   taskName: PropTypes.string,
-  selectTask: PropTypes.func
+  selectTask: PropTypes.func,
+  deleteTask: PropTypes.func
 }
 
 export default Task
