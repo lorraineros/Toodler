@@ -8,7 +8,8 @@ const Toolbar = ({ hasSelected, onAdd, onEdit, onDelete, isTaskToolbar }) => {
     <View styleName="horizontal" style={ isTaskToolbar ? styles.taskToolbar : styles.toolbar}>
       <TouchableHighlight
         style={styles.toolbarAction}
-        onPress={onAdd}>
+        onPress={onAdd}
+        disabled={hasSelected}>
         <Text style={[styles.toolbarActionText, hasSelected ? { color: 'rgba(155, 155, 155, .5)' } : {}]}>Create</Text>
       </TouchableHighlight>
       <TouchableHighlight

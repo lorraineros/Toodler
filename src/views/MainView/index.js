@@ -46,10 +46,11 @@ const Main = ({ navigation: { navigate } }) => {
     }
   }
 
-  const deleteBoard = (boardId) => {
-    // Delete board logic
-    const updatedBoards = boards.filter((board) => board.id !== boardId)
-    setBoards(updatedBoards)
+  const deleteBoard = () => {
+    if (selectedBoard) {
+      const updatedBoards = boards.filter((board) => board.id !== selectedBoard.id)
+      setBoards(updatedBoards)
+    }
   }
 
   const selectBoard = name => {
@@ -76,7 +77,8 @@ const Main = ({ navigation: { navigate } }) => {
         <Toolbar
           hasSelected={boardName !== ''}
           onAdd={() => setIsAddModalOpen(true)}
-          onEdit={() => setIsAddModalOpen(true)} />
+          onEdit={() => setIsAddModalOpen(true)}
+          onDelete={() => deleteBoard()}/>
         <AddBoardModal
           defaultBoard={selectedBoard}
           isOpen={isAddModalOpen}

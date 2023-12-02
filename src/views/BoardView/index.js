@@ -45,21 +45,17 @@ const BoardDetail = ({ route }) => {
     }
   }
 
+  const deleteList = () => {
+    if (selectedList) {
+      const updatedList = lists.filter((list) => list.id !== selectedList.id)
+      setLists(updatedList)
+    }
+  }
+
   const selectList = name => {
     const list = lists.find(l => l.name === name)
     setSelectedList(list)
     setListName(name)
-  }
-
-  const deleteList = (id) => {
-    if (selectedList) {
-      setLists((prevList) => {
-        const updatedList = prevList.filter((list) => list.id !== id)
-        console.log(updatedList)
-        return updatedList
-        })
-      setIsDeleteList(false)
-    }
   }
 
   return (
@@ -69,7 +65,7 @@ const BoardDetail = ({ route }) => {
           hasSelected={listName !== ''}
           onAdd={() => setIsAddModalOpen(true)}
           onEdit={() => setIsAddModalOpen(true)}
-          />
+          onDelete={() => deleteList()}/>
         <AddListModal
           defaultList={selectedList}
           isOpen={isAddModalOpen}

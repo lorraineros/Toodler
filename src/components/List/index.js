@@ -22,11 +22,12 @@ const List = ({
   const [selectedTask, setSelectedTask] = useState()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isDeleteList, setIsDeleteList] = useState(false)
-  const [boardTasks, setBoardTasks] = useState(tasks ? tasks.filter(t => t.listId === id) : [])
   const [taskList, setTasks] = useState(tasks)
+  const [boardTasks, setBoardTasks] = useState(taskList ? taskList.filter(t => t.listId === id) : [])
 
   useEffect(() => {
     setTaskList(taskList)
+    setBoardTasks(taskList.filter(t => t.listId === id))
   }, [taskList])
 
   const backgroundStyles = {
@@ -55,15 +56,13 @@ const List = ({
 
   const addTask = (name, description) => {
     const newId = Math.max(...taskList.map(t => t.id)) + 1
-    const newTask = {
+    setTasks([...taskList, {
       id: newId,
       name,
       description,
       isFinished: false,
       listId: id
-    }
-    setTasks([...taskList, newTask])
-    setBoardTasks([...boardTasks, newTask])
+    }])
     setIsAddModalOpen(false)
   }
 
@@ -72,11 +71,8 @@ const List = ({
       const updatedTaskList = taskList.map((task) =>
         task.id === selectedTask.id ? { ...task, name, description, isFinished, listId } : task
       )
-      const updatedBoardTask = boardTasks.map((task) =>
-        task.id === selectedTask.id ? { ...task, name, description, isFinished, listId } : task
-      )
+
       setTasks(updatedTaskList)
-      setBoardTasks(updatedBoardTask)
       setIsAddModalOpen(false)
       setSelectedTask(null)
     }
